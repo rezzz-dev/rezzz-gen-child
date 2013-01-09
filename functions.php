@@ -70,6 +70,10 @@ function child_theme_setup() {
 	
 	// Remove Genesis Widgets
 	add_action( 'widgets_init', 'be_remove_genesis_widgets', 20 );
+	
+	// Remove Genesis Theme Settings Metaboxes
+	add_action( 'genesis_theme_settings_metaboxes', 'be_remove_genesis_metaboxes' );
+
 
 	// Don't update theme
 	add_filter( 'http_request_args', 'be_dont_update_theme', 5, 2 );
@@ -165,6 +169,23 @@ function be_remove_genesis_widgets() {
     unregister_widget( 'Genesis_Featured_Post'          );
     unregister_widget( 'Genesis_Latest_Tweets_Widget'   );
     unregister_widget( 'Genesis_User_Profile_Widget'    );
+}
+
+/**
+ * Remove Genesis Theme Settings Metaboxes
+ *
+ * @since 1.0.0
+ * @param string $_genesis_theme_settings_pagehook
+ */
+function be_remove_genesis_metaboxes( $_genesis_theme_settings_pagehook ) {
+	//remove_meta_box( 'genesis-theme-settings-feeds',      $_genesis_theme_settings_pagehook, 'main' );
+	//remove_meta_box( 'genesis-theme-settings-header',     $_genesis_theme_settings_pagehook, 'main' );
+	remove_meta_box( 'genesis-theme-settings-nav',        $_genesis_theme_settings_pagehook, 'main' );
+	//remove_meta_box( 'genesis-theme-settings-breadcrumb', $_genesis_theme_settings_pagehook, 'main' );
+	//remove_meta_box( 'genesis-theme-settings-comments',   $_genesis_theme_settings_pagehook, 'main' );
+	//remove_meta_box( 'genesis-theme-settings-posts',      $_genesis_theme_settings_pagehook, 'main' );
+	remove_meta_box( 'genesis-theme-settings-blogpage',   $_genesis_theme_settings_pagehook, 'main' );
+	//remove_meta_box( 'genesis-theme-settings-scripts',    $_genesis_theme_settings_pagehook, 'main' );
 }
 
 /**
