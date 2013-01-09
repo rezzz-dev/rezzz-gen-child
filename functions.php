@@ -67,6 +67,9 @@ function child_theme_setup() {
 	add_action( 'admin_menu', 'be_add_inpost_seo_box' );
 	remove_action( 'admin_menu', 'genesis_add_inpost_layout_box' );
 	add_action( 'admin_menu', 'be_add_inpost_layout_box' );
+	
+	// Remove Genesis Widgets
+	add_action( 'widgets_init', 'be_remove_genesis_widgets', 20 );
 
 	// Don't update theme
 	add_filter( 'http_request_args', 'be_dont_update_theme', 5, 2 );
@@ -149,6 +152,19 @@ function be_add_inpost_layout_box() {
 			add_meta_box( 'genesis_inpost_layout_box', __( 'Layout Settings', 'genesis' ), 'genesis_inpost_layout_box', $type, 'normal', 'default' );
 	}
 
+}
+
+/** 
+ * Remove Genesis widgets
+ *
+ * @since 1.0.0
+ */
+function be_remove_genesis_widgets() {
+    unregister_widget( 'Genesis_eNews_Updates'          );
+    unregister_widget( 'Genesis_Featured_Page'          );
+    unregister_widget( 'Genesis_Featured_Post'          );
+    unregister_widget( 'Genesis_Latest_Tweets_Widget'   );
+    unregister_widget( 'Genesis_User_Profile_Widget'    );
 }
 
 /**
