@@ -74,7 +74,6 @@ function child_theme_setup() {
 	// Remove Genesis Theme Settings Metaboxes
 	add_action( 'genesis_theme_settings_metaboxes', 'be_remove_genesis_metaboxes' );
 
-
 	// Don't update theme
 	add_filter( 'http_request_args', 'be_dont_update_theme', 5, 2 );
 		
