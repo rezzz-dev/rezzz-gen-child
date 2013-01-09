@@ -65,6 +65,12 @@ function child_theme_setup() {
 	// Setup Theme Settings
 	include_once( CHILD_DIR . '/lib/functions/child-theme-settings.php' );
 	
+	// Reposition Genesis Metaboxes
+	remove_action( 'admin_menu', 'genesis_add_inpost_seo_box' );
+	add_action( 'admin_menu', 'be_add_inpost_seo_box' );
+	remove_action( 'admin_menu', 'genesis_add_inpost_layout_box' );
+	add_action( 'admin_menu', 'be_add_inpost_layout_box' );
+
 	// Don't update theme
 	add_filter( 'http_request_args', 'be_dont_update_theme', 5, 2 );
 		
@@ -99,6 +105,53 @@ function be_contactmethods( $contactmethods ) {
 	unset( $contactmethods['jabber'] );
 	
 	return $contactmethods;
+}
+
+/**
+ * Register a new meta box to the post / page edit screen, so that the user can
+ * set SEO options on a per-post or per-page basis.
+ *
+ * @category Genesis
+ * @package Admin
+ * @subpackage Inpost-Metaboxes
+ *
+ * @since 0.1.3
+ *
+ * @see genesis_inpost_seo_box() Generates the content in the meta box
+ */
+function be_add_inpost_seo_box() {
+
+	foreach ( (array) get_post_types( array( 'public' => true ) ) as $type ) {
+		if ( post_type_supports( $type, 'genesis-seo' ) )
+			add_meta_box( 'genesis_inpost_seo_box', __( 'Theme SEO Settings', 'genesis' ), 'genesis_inpost_seo_box', $type, 'normal', 'default' );
+	}
+
+}
+
+/**
+ * Register a new meta box to the post / page edit screen, so that the user can
+ * set layout options on a per-post or per-page basis.
+ *
+ * @category Genesis
+ * @package Admin
+ * @subpackage Inpost-Metaboxes
+ *
+ * @since 0.2.2
+ *
+ * @see genesis_inpost_layout_box() Generates the content in the boxes
+ *
+ * @return null Returns null if Genesis layouts are not supported
+ */
+function be_add_inpost_layout_box() {
+
+	if ( ! current_theme_supports( 'genesis-inpost-layouts' ) )
+		return;
+
+	foreach ( (array) get_post_types( array( 'public' => true ) ) as $type ) {
+		if ( post_type_supports( $type, 'genesis-layouts' ) )
+			add_meta_box( 'genesis_inpost_layout_box', __( 'Layout Settings', 'genesis' ), 'genesis_inpost_layout_box', $type, 'normal', 'default' );
+	}
+
 }
 
 /**
