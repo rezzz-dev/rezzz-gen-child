@@ -47,14 +47,7 @@ function child_theme_setup() {
 	
 	// Remove Unused User Settings
 	add_filter( 'user_contactmethods', 'be_contactmethods' );
-	remove_action( 'show_user_profile', 'genesis_user_options_fields' );
-	remove_action( 'edit_user_profile', 'genesis_user_options_fields' );
-	remove_action( 'show_user_profile', 'genesis_user_archive_fields' );
-	remove_action( 'edit_user_profile', 'genesis_user_archive_fields' );
-	remove_action( 'show_user_profile', 'genesis_user_seo_fields' );
-	remove_action( 'edit_user_profile', 'genesis_user_seo_fields' );
-	remove_action( 'show_user_profile', 'genesis_user_layout_fields' );
-	remove_action( 'edit_user_profile', 'genesis_user_layout_fields' );
+	add_action( 'admin_init', 'jr_genesis_remove_user_profile_fields' );
 
 	// Editor Styles
 	add_editor_style( 'editor-style.css' );
@@ -91,7 +84,23 @@ function child_theme_setup() {
 }
 
 // ** Backend Functions ** //
-
+/**
+ * Remove those fields that Genesis Added on the User Profile Admin Page
+ * @since  2.0
+ *
+ * @author Jason Resnick
+ * 
+ */
+function jr_genesis_remove_user_profile_fields() {
+	remove_action( 'show_user_profile', 'genesis_user_options_fields' );
+	remove_action( 'edit_user_profile', 'genesis_user_options_fields' );
+	remove_action( 'show_user_profile', 'genesis_user_archive_fields' );
+	remove_action( 'edit_user_profile', 'genesis_user_archive_fields' );
+	remove_action( 'show_user_profile', 'genesis_user_seo_fields' );
+	remove_action( 'edit_user_profile', 'genesis_user_seo_fields' );
+	remove_action( 'show_user_profile', 'genesis_user_layout_fields' );
+	remove_action( 'edit_user_profile', 'genesis_user_layout_fields' );
+}
 /**
  * Customize Contact Methods
  * @since 1.0.0
